@@ -11,7 +11,7 @@ public class Player {
     private final Score score;
 
     public Player(String name) {
-        this.name = Objects.requireNonNull(name);
+        this.name = Objects.requireNonNull(name, "Player name should not be null");
         this.score = new Score();
     }
 
