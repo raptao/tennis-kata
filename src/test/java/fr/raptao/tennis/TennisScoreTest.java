@@ -9,17 +9,17 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * Created by raptao on 9/18/2017.
  */
-public class ScoreTest {
+public class TennisScoreTest {
 
     @Test
     public void newScore(){
-        Score s = new Score();
+        Score s = new TennisScore();
         assertEquals(0, s.currentScore());
     }
 
     @Test
     public void increment() throws Exception {
-        Score s = new Score();
+        Score s = new TennisScore();
 
         // O to 15
         boolean incrementState = s.increment();

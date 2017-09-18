@@ -1,31 +1,10 @@
 package fr.raptao.tennis;
 
+/**
+ * Created by raptao on 9/19/2017.
+ */
+public interface Score {
+    boolean increment();
 
-public class Score {
-
-    private int score;
-
-    /**
-     * This method increments the score
-     * @return true if the score has been incremented, false otherwise
-     */
-    public boolean increment() {
-        if( score >= 40 ){
-            return false;
-        }
-        if (score == 0 || score == 15) {
-            score += 15;
-        } else if (score == 30) {
-            score = 40;
-        }
-        return true;
-    }
-
-    /**
-     *
-     * @return the current value of the score
-     */
-    public int currentScore() {
-        return score;
-    }
+    int currentScore();
 }
