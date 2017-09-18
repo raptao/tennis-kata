@@ -2,9 +2,7 @@ package fr.raptao.tennis;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by raptao on 9/18/2017.
@@ -38,5 +36,13 @@ public class TennisPlayerTest {
     public void getName(){
         Player p = new TennisPlayer("Tennis");
         assertEquals("Tennis", p.getName());
+    }
+
+    @Test
+    public void advantageTest(){
+        TennisPlayer p = new TennisPlayer("Thierry");
+        assertFalse(p.hasAdvantage());
+        p.setAdvantage(true);
+        assertTrue(p.hasAdvantage());
     }
 }

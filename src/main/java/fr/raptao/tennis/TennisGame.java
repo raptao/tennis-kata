@@ -1,6 +1,7 @@
 package fr.raptao.tennis;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by raptao on 9/18/2017.
@@ -8,13 +9,14 @@ import java.util.Objects;
 public class TennisGame {
 
     public static final int MAX_SCORE = 40;
-    private final Player firstPlayer;
-    private final Player secondPlayer;
-    private Player advantagedPlayer;
+    private final TennisPlayer firstPlayer;
+    private final TennisPlayer secondPlayer;
+    private WinningPlayer winningPlayer;
 
-    private TennisGame(Player firstPlayer, Player secondPlayer) {
+    private TennisGame(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
         this.firstPlayer = Objects.requireNonNull(firstPlayer);
         this.secondPlayer = Objects.requireNonNull(secondPlayer);
+        this.winningPlayer = WinningPlayer.NONE;
     }
 
     /**
@@ -25,28 +27,82 @@ public class TennisGame {
      * @return a new game;
      */
     public static TennisGame between(String firstPlayer, String secondPlayer) {
-        Player one = new TennisPlayer(firstPlayer);
-        Player two = new TennisPlayer(secondPlayer);
+        TennisPlayer one = new TennisPlayer(firstPlayer);
+        TennisPlayer two = new TennisPlayer(secondPlayer);
         return new TennisGame(one, two);
     }
 
+    /**
+     * Increments the first player score. If the game is finished this method returns false.
+     *
+     * @return true if the score has been incremented, false otherwise
+     */
     public boolean incrementFirstPlayer() {
+        if (isFinished()) {
+            return false;
+        }
+        // return to deuce game
+        if (secondPlayer.hasAdvantage()) {
+            secondPlayer.setAdvantage(false);
+            return true;
+        }
+        // player gets advantage
+        if (isDeuce()) {
+            firstPlayer.setAdvantage(true);
+            secondPlayer.setAdvantage(false);
+            return true;
+        }
+        // game won
+        if (firstPlayer.getScore() == MAX_SCORE || firstPlayer.hasAdvantage()) {
+            winningPlayer = WinningPlayer.PLAYER_ONE;
+            return false;
+        }
         return firstPlayer.incrementScore();
     }
 
     public boolean incrementSecondPlayer() {
+        if (isFinished()) {
+            return false;
+        }
+        if (firstPlayer.hasAdvantage()) {
+            firstPlayer.setAdvantage(false);
+            return true;
+        }
+        if (isDeuce()) {
+            secondPlayer.setAdvantage(true);
+            firstPlayer.setAdvantage(false);
+            return true;
+        }
+        if (secondPlayer.getScore() == MAX_SCORE || secondPlayer.hasAdvantage()) {
+            winningPlayer = WinningPlayer.PLAYER_TWO;
+            return false;
+        }
         return secondPlayer.incrementScore();
     }
 
-    public boolean isDeuce() {
-        return firstPlayer.getScore() == secondPlayer.getScore() && firstPlayer.getScore() == MAX_SCORE;
+    public boolean isFinished() {
+        return !winningPlayer.equals(WinningPlayer.NONE);
     }
 
-    public Player getFirstPlayer() {
+    public boolean isDeuce() {
+        return (firstPlayer.getScore() == MAX_SCORE && secondPlayer.getScore() == MAX_SCORE)
+                && (!firstPlayer.hasAdvantage() && !secondPlayer.hasAdvantage());
+    }
+
+    public TennisPlayer getFirstPlayer() {
         return firstPlayer;
     }
 
-    public Player getSecondPlayer() {
+    public TennisPlayer getSecondPlayer() {
         return secondPlayer;
+    }
+
+    public Optional<Player> getWinningPlayer() {
+        if (winningPlayer.equals(WinningPlayer.NONE)) {
+            return Optional.empty();
+        }
+        return winningPlayer.equals(WinningPlayer.PLAYER_ONE) ?
+                Optional.of(firstPlayer) :
+                Optional.of(secondPlayer);
     }
 }

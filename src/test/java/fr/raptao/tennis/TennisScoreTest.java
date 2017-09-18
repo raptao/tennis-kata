@@ -2,17 +2,20 @@ package fr.raptao.tennis;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by raptao on 9/18/2017.
  */
 public class TennisScoreTest {
 
+    @Test(expected = IllegalArgumentException.class)
+    public void illegalScore() {
+        new TennisScore(10);
+    }
+
     @Test
-    public void newScore(){
+    public void newScore() {
         Score s = new TennisScore();
         assertEquals(0, s.currentScore());
     }
@@ -34,7 +37,7 @@ public class TennisScoreTest {
         // 30 to 40
         incrementState = s.increment();
         assertTrue(incrementState);
-        assertEquals(40 , s.currentScore());
+        assertEquals(40, s.currentScore());
 
         // 40 is the max
         incrementState = s.increment();

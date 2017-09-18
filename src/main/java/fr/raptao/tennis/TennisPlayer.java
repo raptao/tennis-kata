@@ -9,6 +9,7 @@ public class TennisPlayer implements Player {
 
     private final String name;
     private final Score score;
+    private boolean hasAdvantage;
 
     public TennisPlayer(String name) {
         this.name = Objects.requireNonNull(name, "TennisPlayer name should not be null");
@@ -28,5 +29,13 @@ public class TennisPlayer implements Player {
     @Override
     public int getScore() {
         return score.currentScore();
+    }
+
+    public boolean hasAdvantage(){
+        return hasAdvantage;
+    }
+
+    public void setAdvantage( boolean advantage){
+        hasAdvantage = advantage;
     }
 }

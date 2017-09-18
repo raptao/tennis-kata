@@ -5,6 +5,17 @@ public class TennisScore implements Score {
 
     private int score;
 
+    public TennisScore(){
+        this.score = 0;
+    }
+
+    public TennisScore(int score) {
+        if( score != 0 || score != 15 || score != 30 || score != 40){
+            throw new IllegalArgumentException(String.format("%d is not a tennis score", score));
+        }
+        this.score = score;
+    }
+
     /**
      * This method increments the score
      * @return true if the score has been incremented, false otherwise
