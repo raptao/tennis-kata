@@ -80,6 +80,10 @@ public class TennisGame {
         return secondPlayer.incrementScore();
     }
 
+    /**
+     *
+     * @return true if the game is finished, false otherwise
+     */
     public boolean isFinished() {
         return !winningPlayer.equals(WinningPlayer.NONE);
     }
