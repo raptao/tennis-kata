@@ -81,7 +81,6 @@ public class TennisGame {
     }
 
     /**
-     *
      * @return true if the game is finished, false otherwise
      */
     public boolean isFinished() {
@@ -89,8 +88,10 @@ public class TennisGame {
     }
 
     public boolean isDeuce() {
-        return (firstPlayer.getScore() == MAX_SCORE && secondPlayer.getScore() == MAX_SCORE)
-                && (!firstPlayer.hasAdvantage() && !secondPlayer.hasAdvantage());
+        if(firstPlayer.hasAdvantage() || secondPlayer.hasAdvantage()){
+            return false;
+        }
+        return (firstPlayer.getScore() == MAX_SCORE && secondPlayer.getScore() == MAX_SCORE);
     }
 
     public TennisPlayer getFirstPlayer() {
