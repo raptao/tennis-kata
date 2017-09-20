@@ -12,6 +12,7 @@ public class TennisSet implements Game {
     private final Pair<TennisPlayer, SetScore> firstPlayer;
     private final Pair<TennisPlayer, SetScore> secondPlayer;
     private WinningPlayer winningPlayer;
+    private boolean tieBreak;
 
     private TennisSet(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
         this.firstPlayer = new Pair<>(Objects.requireNonNull(firstPlayer), new SetScore());
@@ -40,26 +41,37 @@ public class TennisSet implements Game {
         return opponent.getValue().currentScore() <= 4 && player.getValue().currentScore() == 5;
     }
 
-    private static boolean winningBySeven(Pair<TennisPlayer, SetScore> player, Pair<TennisPlayer, SetScore> opponent) {
-        return opponent.getValue().currentScore() >= 5 && player.getValue().currentScore() >= 6;
-    }
-
     @Override
     public boolean incrementFirstPlayer() {
         if (isFinished()) {
             return false;
         }
-        if (winningBySeven(firstPlayer, secondPlayer)) {
-            firstPlayer.getValue().increment();
-            winningPlayer = WinningPlayer.PLAYER_ONE;
-            return false;
+        if (tieBreak) {
+            return tieBreakRule(firstPlayer, secondPlayer, this::firstPlayerWins);
+        }
+        if (firstPlayerScore() == 5 && secondPlayerScore() == 6) {
+            tieBreak = true;
+            return firstPlayer.getValue().increment();
         }
         if (isWinning(firstPlayer, secondPlayer)) {
-            firstPlayer.getValue().increment();
-            winningPlayer = WinningPlayer.PLAYER_ONE;
+            firstPlayerWins();
             return false;
         }
         return firstPlayer.getValue().increment();
+    }
+
+    private static boolean tieBreakRule(Pair<TennisPlayer, SetScore> scoringPlayer,
+                                        Pair<TennisPlayer, SetScore> opponent,
+                                        Action winAction){
+        if(scoringPlayer.getValue().currentScore() == (opponent.getValue().currentScore()+1)){
+            winAction.apply();
+            return false;
+        }
+        return scoringPlayer.getValue().forceIncrement();
+    }
+    private void firstPlayerWins() {
+        firstPlayer.getValue().increment();
+        winningPlayer = WinningPlayer.PLAYER_ONE;
     }
 
     @Override
@@ -67,18 +79,23 @@ public class TennisSet implements Game {
         if (isFinished()) {
             return false;
         }
-        if (winningBySeven(secondPlayer, firstPlayer)) {
-            secondPlayer.getValue().increment();
-            winningPlayer = WinningPlayer.PLAYER_TWO;
-            return false;
+        if (tieBreak) {
+            return tieBreakRule(secondPlayer, firstPlayer, this::secondPlayerWins);
         }
-
+        if (firstPlayerScore() == 6 && secondPlayerScore() == 5) {
+            tieBreak = true;
+            return secondPlayer.getValue().increment();
+        }
         if (isWinning(secondPlayer, firstPlayer)) {
-            secondPlayer.getValue().increment();
-            winningPlayer = WinningPlayer.PLAYER_TWO;
+            secondPlayerWins();
             return false;
         }
         return secondPlayer.getValue().increment();
+    }
+
+    private void secondPlayerWins() {
+        secondPlayer.getValue().increment();
+        winningPlayer = WinningPlayer.PLAYER_TWO;
     }
 
     @Override

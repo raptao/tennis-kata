@@ -82,29 +82,7 @@ public class TennisSetTest {
     }
 
     @Test
-    public void firstPlayerWinsWithSeven(){
-        TennisSet set = TennisSet.between("Thierry", "Raptao");
-        set.incrementFirstPlayer();
-        set.incrementSecondPlayer(); // 1 -1
-        set.incrementFirstPlayer();
-        set.incrementSecondPlayer(); // 2 - 2
-        set.incrementFirstPlayer();
-        set.incrementSecondPlayer(); // 3 - 3
-        set.incrementFirstPlayer();
-        set.incrementSecondPlayer(); // 4 - 4
-        set.incrementFirstPlayer();
-        set.incrementSecondPlayer(); // 5 - 5
-        assertTrue(set.incrementFirstPlayer());  // 6 - 5
-        assertFalse(set.isFinished());
-        assertTrue(set.incrementSecondPlayer()); // 6 - 6
-        assertFalse(set.isFinished());
-        assertFalse(set.incrementFirstPlayer());
-        assertTrue(set.isFinished());
-        assertEquals("Thierry", set.getWinner().get().getName());
-    }
-
-    @Test
-    public void secondPlayerWinsWithSeven(){
+    public void firstPlayerWinsByTieBreak(){
         TennisSet set = TennisSet.between("Thierry", "Raptao");
         set.incrementFirstPlayer();
         set.incrementSecondPlayer(); // 1 -1
@@ -120,11 +98,48 @@ public class TennisSetTest {
         assertFalse(set.isFinished());
         assertTrue(set.incrementFirstPlayer()); // 6 - 6
         assertFalse(set.isFinished());
-        assertFalse(set.incrementSecondPlayer());
+        assertTrue(set.incrementFirstPlayer()); // 7 - 6
+        assertFalse(set.isFinished());
+        assertTrue(set.incrementSecondPlayer());  // 7 - 7
+        assertFalse(set.isFinished());
+
+        assertTrue(set.incrementFirstPlayer()); // 8 - 7
+        assertFalse(set.isFinished());
+
+        assertFalse(set.incrementFirstPlayer()); // 9 - 7
+        assertTrue(set.isFinished());
+        assertEquals("Thierry", set.getWinner().get().getName());
+    }
+
+    @Test
+    public void secondPlayerWinsByTieBreak(){
+        TennisSet set = TennisSet.between("Thierry", "Raptao");
+        set.incrementFirstPlayer();
+        set.incrementSecondPlayer(); // 1 -1
+        set.incrementFirstPlayer();
+        set.incrementSecondPlayer(); // 2 - 2
+        set.incrementFirstPlayer();
+        set.incrementSecondPlayer(); // 3 - 3
+        set.incrementFirstPlayer();
+        set.incrementSecondPlayer(); // 4 - 4
+        set.incrementFirstPlayer();
+        set.incrementSecondPlayer(); // 5 - 5
+        assertTrue(set.incrementSecondPlayer());  // 5 - 6
+        assertFalse(set.isFinished());
+        assertTrue(set.incrementFirstPlayer()); // 6 - 6
+        assertFalse(set.isFinished());
+        assertTrue(set.incrementSecondPlayer()); // 6 - 7
+        assertFalse(set.isFinished());
+        assertTrue(set.incrementFirstPlayer());  // 7 - 7
+        assertFalse(set.isFinished());
+
+        assertTrue(set.incrementSecondPlayer()); // 7 - 8
+        assertFalse(set.isFinished());
+
+        assertFalse(set.incrementSecondPlayer()); // 7 - 9
         assertTrue(set.isFinished());
         assertEquals("Raptao", set.getWinner().get().getName());
     }
-    
     @Test
     public void getWinner(){
         TennisSet set = TennisSet.between("Thierry", "Raptao");

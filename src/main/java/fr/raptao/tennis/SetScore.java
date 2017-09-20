@@ -18,6 +18,11 @@ public class SetScore implements Score{
         return true;
     }
 
+    public boolean forceIncrement(){
+        score ++;
+        return true;
+    }
+
     @Override
     public int currentScore() {
         return score;
