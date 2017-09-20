@@ -1,5 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+import fr.raptao.game.Score;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
@@ -45,4 +46,15 @@ public class TennisScoreTest {
         assertEquals(40, s.currentScore());
     }
 
+    @Test
+    public void reset(){
+        Score s = new TennisScore();
+
+        // O to 15
+        boolean incrementState = s.increment();
+        assertTrue(incrementState);
+        assertEquals(15, s.currentScore());
+        s.reset();
+        assertEquals(0, s.currentScore());
+    }
 }

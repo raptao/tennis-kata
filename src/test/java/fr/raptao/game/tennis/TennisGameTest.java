@@ -1,5 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+import fr.raptao.game.Player;
 import org.junit.Test;
 
 import java.util.Optional;

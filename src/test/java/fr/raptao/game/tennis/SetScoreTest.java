@@ -1,4 +1,4 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
 import org.junit.Test;
 

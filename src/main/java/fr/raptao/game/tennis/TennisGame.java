@@ -1,4 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
+
+import fr.raptao.game.Game;
 
 import java.util.Objects;
 
