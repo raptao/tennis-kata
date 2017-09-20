@@ -1,12 +1,11 @@
 package fr.raptao.tennis;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by raptao on 9/18/2017.
  */
-public class TennisGame {
+public class TennisGame implements Game {
 
     public static final int MAX_SCORE = 40;
     private final TennisPlayer firstPlayer;
@@ -32,11 +31,16 @@ public class TennisGame {
         return new TennisGame(one, two);
     }
 
+    public static TennisGame between(TennisPlayer firstPlayer, TennisPlayer secondPlayer){
+        return new TennisGame(firstPlayer, secondPlayer);
+    }
+
     /**
      * Increments the first player score. If the game is finished this method returns false.
      *
      * @return true if the score has been incremented, false otherwise
      */
+    @Override
     public boolean incrementFirstPlayer() {
         if (isFinished()) {
             return false;
@@ -60,6 +64,7 @@ public class TennisGame {
         return firstPlayer.incrementScore();
     }
 
+    @Override
     public boolean incrementSecondPlayer() {
         if (isFinished()) {
             return false;
@@ -83,6 +88,7 @@ public class TennisGame {
     /**
      * @return true if the game is finished, false otherwise
      */
+    @Override
     public boolean isFinished() {
         return !winningPlayer.equals(WinningPlayer.NONE);
     }
@@ -94,20 +100,29 @@ public class TennisGame {
         return (firstPlayer.getScore() == MAX_SCORE && secondPlayer.getScore() == MAX_SCORE);
     }
 
+    @Override
     public TennisPlayer getFirstPlayer() {
         return firstPlayer;
     }
 
+    @Override
     public TennisPlayer getSecondPlayer() {
         return secondPlayer;
     }
 
-    public Optional<Player> getWinningPlayer() {
-        if (winningPlayer.equals(WinningPlayer.NONE)) {
-            return Optional.empty();
-        }
-        return winningPlayer.equals(WinningPlayer.PLAYER_ONE) ?
-                Optional.of(firstPlayer) :
-                Optional.of(secondPlayer);
+    @Override
+    public int firstPlayerScore() {
+        return firstPlayer.getScore();
     }
+
+    @Override
+    public int secondPlayerScore() {
+        return secondPlayer.getScore();
+    }
+
+    @Override
+    public WinningPlayer getWinningPlayer() {
+        return winningPlayer;
+    }
+
 }
