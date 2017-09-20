@@ -1,4 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
+
+import fr.raptao.game.Game;
 
 import java.util.Objects;
 
@@ -125,4 +127,9 @@ public class TennisGame implements Game {
         return winningPlayer;
     }
 
+    public void reset(){
+        firstPlayer.resetScore();
+        secondPlayer.resetScore();
+        winningPlayer = WinningPlayer.NONE;
+    }
 }

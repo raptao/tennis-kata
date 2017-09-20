@@ -1,9 +1,11 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
+
+import fr.raptao.game.Score;
 
 /**
  * Created by raptao on 9/20/2017.
  */
-public class SetScore implements Score{
+public class SetScore implements Score {
 
     private final static int MAX_SCORE = 7;
 
@@ -26,5 +28,10 @@ public class SetScore implements Score{
     @Override
     public int currentScore() {
         return score;
+    }
+
+    @Override
+    public void reset() {
+        throw new IllegalStateException("This method should net be used for this object.");
     }
 }

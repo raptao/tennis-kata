@@ -1,5 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+import fr.raptao.game.Player;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -11,14 +12,24 @@ import static junit.framework.TestCase.*;
  */
 public class TennisGameTest {
 
-
     @Test(expected = NullPointerException.class)
     public void betweenKOFirstPlayer() {
-        TennisGame.between(null, "");
+        TennisGame.between(null, new TennisPlayer("test"));
     }
 
     @Test(expected = NullPointerException.class)
     public void betweenKOSecondPlayer() {
+        TennisGame.between(new TennisPlayer("test"), null);
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void betweenKOFirstPlayerName() {
+        TennisGame.between(null, "");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void betweenKOSecondPlayerName() {
         TennisGame.between("", null);
     }
 
@@ -47,6 +58,7 @@ public class TennisGameTest {
         assertTrue(game.incrementFirstPlayer()); // 30 - 0
         assertTrue(game.incrementFirstPlayer()); // 40 - 0
         assertFalse(game.incrementFirstPlayer()); // game won
+        assertFalse(game.incrementFirstPlayer());
         Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Thierry", winningPlayer.get().getName());
@@ -114,7 +126,8 @@ public class TennisGameTest {
         assertTrue(game.incrementSecondPlayer()); // player two has advantage
         assertTrue(game.getSecondPlayer().hasAdvantage());
         assertFalse(game.incrementSecondPlayer()); // player two has won the game
-
+        assertFalse(game.incrementSecondPlayer());
+        assertTrue(game.isFinished());
         Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Raptao", winningPlayer.get().getName());
@@ -135,5 +148,17 @@ public class TennisGameTest {
         game.incrementFirstPlayer();
         game.incrementSecondPlayer();
         assertTrue(game.isDeuce()); // 40 - 40
+    }
+
+    @Test
+    public void firstPlayerScore(){
+        TennisGame game = TennisGame.between("thierry", "raptao");
+        assertEquals(0, game.firstPlayerScore());
+    }
+
+    @Test
+    public void secondPlayerScore(){
+        TennisGame game = TennisGame.between("thierry", "raptao");
+        assertEquals(0, game.secondPlayerScore());
     }
 }

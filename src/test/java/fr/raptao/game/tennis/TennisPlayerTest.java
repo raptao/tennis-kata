@@ -1,5 +1,6 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+import fr.raptao.game.Player;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
@@ -17,14 +18,14 @@ public class TennisPlayerTest {
 
     @Test
     public void newPlayerOK(){
-        Player p = new TennisPlayer("Tennis TennisPlayer");
+        Player p = new TennisPlayer("TennisMatch TennisPlayer");
         assertNotNull(p.getName());
         assertEquals(0, p.getScore());
     }
 
     @Test
     public void incrementScore() {
-        Player p = new TennisPlayer("Tennis TennisPlayer");
+        Player p = new TennisPlayer("TennisMatch TennisPlayer");
         assertEquals(0, p.getScore());
 
         boolean incrementState = p.incrementScore();
@@ -34,8 +35,8 @@ public class TennisPlayerTest {
 
     @Test
     public void getName(){
-        Player p = new TennisPlayer("Tennis");
-        assertEquals("Tennis", p.getName());
+        Player p = new TennisPlayer("TennisMatch");
+        assertEquals("TennisMatch", p.getName());
     }
 
     @Test

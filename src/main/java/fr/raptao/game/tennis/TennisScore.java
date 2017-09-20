@@ -1,5 +1,7 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+
+import fr.raptao.game.Score;
 
 public class TennisScore implements Score {
 
@@ -10,7 +12,7 @@ public class TennisScore implements Score {
     }
 
     public TennisScore(int score) {
-        if( score != 0 || score != 15 || score != 30 || score != 40){
+        if( score != 0 && score != 15 && score != 30 && score != 40){
             throw new IllegalArgumentException(String.format("%d is not a tennis score", score));
         }
         this.score = score;
@@ -40,5 +42,9 @@ public class TennisScore implements Score {
     @Override
     public int currentScore() {
         return score;
+    }
+
+    public void reset(){
+        score = 0;
     }
 }

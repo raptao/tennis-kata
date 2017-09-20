@@ -1,4 +1,7 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
+
+import fr.raptao.game.Player;
+import fr.raptao.game.Score;
 
 import java.util.Objects;
 
@@ -37,5 +40,9 @@ public class TennisPlayer implements Player {
 
     public void setAdvantage( boolean advantage){
         hasAdvantage = advantage;
+    }
+
+    public void resetScore(){
+        score.reset();
     }
 }

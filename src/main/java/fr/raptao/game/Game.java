@@ -1,4 +1,7 @@
-package fr.raptao.tennis;
+package fr.raptao.game;
+
+import fr.raptao.game.tennis.TennisPlayer;
+import fr.raptao.game.tennis.WinningPlayer;
 
 import java.util.Optional;
 

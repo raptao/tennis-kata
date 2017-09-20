@@ -1,5 +1,7 @@
-package fr.raptao.tennis;
+package fr.raptao.game.tennis;
 
+import fr.raptao.game.Action;
+import fr.raptao.game.Game;
 import javafx.util.Pair;
 
 import java.util.Objects;
