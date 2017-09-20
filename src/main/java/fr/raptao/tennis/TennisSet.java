@@ -1,19 +1,22 @@
 package fr.raptao.tennis;
 
+import javafx.util.Pair;
+
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by raptao on 9/20/2017.
  */
 public class TennisSet implements Game{
     public static final int MAX_SCORE = 40;
-    private final TennisPlayer firstPlayer;
-    private final TennisPlayer secondPlayer;
+    private final Pair<TennisPlayer,SetScore> firstPlayer;
+    private final Pair<TennisPlayer, SetScore> secondPlayer;
+    private WinningPlayer winningPlayer;
 
     private TennisSet(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
-        this.firstPlayer = Objects.requireNonNull(firstPlayer);
-        this.secondPlayer = Objects.requireNonNull(secondPlayer);
+        this.firstPlayer = new Pair<>(Objects.requireNonNull(firstPlayer), new SetScore());
+        this.secondPlayer = new Pair<>(Objects.requireNonNull(secondPlayer), new SetScore());
+        this.winningPlayer = WinningPlayer.NONE;
     }
 
     /**
@@ -35,12 +38,26 @@ public class TennisSet implements Game{
 
     @Override
     public boolean incrementFirstPlayer() {
-        return false;
+        if( isWinning(firstPlayer, secondPlayer) ){
+            firstPlayer.getValue().increment();
+            winningPlayer = WinningPlayer.PLAYER_ONE;
+            return false;
+        }
+        return firstPlayer.getValue().increment();
     }
 
+    private static boolean isWinning(Pair<TennisPlayer, SetScore>player, Pair<TennisPlayer, SetScore> opponent){
+        return opponent.getValue().currentScore() <= 4 && player.getValue().currentScore() == 5 ;
+
+    }
     @Override
     public boolean incrementSecondPlayer() {
-        return false;
+        if( isWinning(secondPlayer, firstPlayer) ){
+            secondPlayer.getValue().increment();
+            winningPlayer = WinningPlayer.PLAYER_TWO;
+            return false;
+        }
+        return secondPlayer.getValue().increment();
     }
 
     @Override
@@ -50,16 +67,27 @@ public class TennisSet implements Game{
 
     @Override
     public TennisPlayer getFirstPlayer() {
-        return firstPlayer;
+        return firstPlayer.getKey();
     }
 
     @Override
     public TennisPlayer getSecondPlayer() {
-        return secondPlayer;
+        return secondPlayer.getKey();
     }
 
     @Override
-    public Optional<Player> getWinningPlayer() {
-        return null;
+    public int firstPlayerScore() {
+        return firstPlayer.getValue().currentScore();
     }
+
+    @Override
+    public int secondPlayerScore() {
+        return secondPlayer.getValue().currentScore();
+    }
+
+    @Override
+    public WinningPlayer getWinningPlayer() {
+        return winningPlayer;
+    }
+
 }

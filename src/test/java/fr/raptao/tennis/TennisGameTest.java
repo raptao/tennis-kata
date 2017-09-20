@@ -42,12 +42,12 @@ public class TennisGameTest {
     @Test
     public void winningFirstPlayer() {
         TennisGame game = TennisGame.between("Thierry", "Raptao");
-        assertFalse(game.getWinningPlayer().isPresent());
+        assertFalse(game.getWinner().isPresent());
         assertTrue(game.incrementFirstPlayer()); // 15 - 0
         assertTrue(game.incrementFirstPlayer()); // 30 - 0
         assertTrue(game.incrementFirstPlayer()); // 40 - 0
         assertFalse(game.incrementFirstPlayer()); // game won
-        Optional<Player> winningPlayer = game.getWinningPlayer();
+        Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Thierry", winningPlayer.get().getName());
     }
@@ -55,12 +55,12 @@ public class TennisGameTest {
     @Test
     public void winningSecondPlayer() {
         TennisGame game = TennisGame.between("Thierry", "Raptao");
-        assertFalse(game.getWinningPlayer().isPresent());
+        assertFalse(game.getWinner().isPresent());
         assertTrue(game.incrementSecondPlayer()); // 0 - 15
         assertTrue(game.incrementSecondPlayer()); // 0 - 30
         assertTrue(game.incrementSecondPlayer()); // 0 - 40
         assertFalse(game.incrementSecondPlayer()); // game won
-        Optional<Player> winningPlayer = game.getWinningPlayer();
+        Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Raptao", winningPlayer.get().getName());
     }
@@ -86,7 +86,7 @@ public class TennisGameTest {
         assertTrue(game.incrementFirstPlayer()); // player one has advantage
         assertFalse(game.incrementFirstPlayer()); // player one has won the game
 
-        Optional<Player> winningPlayer = game.getWinningPlayer();
+        Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Thierry", winningPlayer.get().getName());
 
@@ -115,7 +115,7 @@ public class TennisGameTest {
         assertTrue(game.getSecondPlayer().hasAdvantage());
         assertFalse(game.incrementSecondPlayer()); // player two has won the game
 
-        Optional<Player> winningPlayer = game.getWinningPlayer();
+        Optional<Player> winningPlayer = game.getWinner();
         assertTrue(winningPlayer.isPresent());
         assertEquals("Raptao", winningPlayer.get().getName());
         assertTrue(game.isFinished());

@@ -1,7 +1,6 @@
 package fr.raptao.tennis;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by raptao on 9/18/2017.
@@ -112,12 +111,18 @@ public class TennisGame implements Game {
     }
 
     @Override
-    public Optional<Player> getWinningPlayer() {
-        if (winningPlayer.equals(WinningPlayer.NONE)) {
-            return Optional.empty();
-        }
-        return winningPlayer.equals(WinningPlayer.PLAYER_ONE) ?
-                Optional.of(firstPlayer) :
-                Optional.of(secondPlayer);
+    public int firstPlayerScore() {
+        return firstPlayer.getScore();
     }
+
+    @Override
+    public int secondPlayerScore() {
+        return secondPlayer.getScore();
+    }
+
+    @Override
+    public WinningPlayer getWinningPlayer() {
+        return winningPlayer;
+    }
+
 }
