@@ -16,11 +16,22 @@ public class TennisSetTest {
 
     @Test(expected = NullPointerException.class)
     public void betweenKOFirstPlayer() {
-        TennisSet.between(null, "");
+        TennisSet.between(null, new TennisPlayer("test"));
     }
 
     @Test(expected = NullPointerException.class)
     public void betweenKOSecondPlayer() {
+        TennisSet.between(new TennisPlayer("test"), null);
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void betweenKOFirstPlayerName() {
+        TennisSet.between(null, "");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void betweenKOSecondPlayerName() {
         TennisSet.between("", null);
     }
 
@@ -47,6 +58,7 @@ public class TennisSetTest {
 
         assertFalse(set.incrementFirstPlayer());
         assertEquals(6, set.firstPlayerScore());
+        assertFalse(set.incrementFirstPlayer()); // already won
 
         Optional<Player> winner = set.getWinner();
         assertTrue(winner.isPresent());
@@ -54,7 +66,7 @@ public class TennisSetTest {
     }
 
     @Test
-    public void incrementSecondPlayer(){
+    public void secondPlayerDomination(){
         TennisSet set = TennisSet.between("Thierry", "Raptao");
         assertEquals(0, set.secondPlayerScore());
         assertEquals(0, set.firstPlayerScore());
@@ -77,6 +89,7 @@ public class TennisSetTest {
         assertFalse(set.incrementSecondPlayer());
         assertEquals(6, set.secondPlayerScore());
 
+        assertFalse(set.incrementSecondPlayer());
         Optional<Player> winner = set.getWinner();
         assertTrue(winner.isPresent());
         assertEquals("Raptao", set.getWinner().get().getName());
@@ -125,9 +138,9 @@ public class TennisSetTest {
         set.incrementSecondPlayer(); // 4 - 4
         set.incrementFirstPlayer();
         set.incrementSecondPlayer(); // 5 - 5
-        assertTrue(set.incrementSecondPlayer());  // 5 - 6
+        assertTrue(set.incrementFirstPlayer());  // 6 - 5
         assertFalse(set.isFinished());
-        assertTrue(set.incrementFirstPlayer()); // 6 - 6
+        assertTrue(set.incrementSecondPlayer()); // 6 - 6
         assertFalse(set.isFinished());
         assertTrue(set.incrementSecondPlayer()); // 6 - 7
         assertFalse(set.isFinished());

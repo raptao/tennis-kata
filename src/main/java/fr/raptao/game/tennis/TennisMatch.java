@@ -2,6 +2,7 @@ package fr.raptao.game.tennis;
 
 import fr.raptao.game.Player;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
@@ -17,9 +18,9 @@ public class TennisMatch {
     private Player winner;
 
     public TennisMatch(TennisPlayer firstPlayer, TennisPlayer secondPlayer, TennisSet[] sets) {
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
-        this.sets = sets;
+        this.firstPlayer = Objects.requireNonNull(firstPlayer);
+        this.secondPlayer = Objects.requireNonNull(secondPlayer);
+        this.sets = Objects.requireNonNull(sets);
     }
 
     public static TennisMatch tennisMatchPrompt() {
@@ -28,7 +29,7 @@ public class TennisMatch {
             TennisPlayer firstPlayer = new TennisPlayer(scanner.nextLine());
             System.out.print("Player 2 name :");
             TennisPlayer secondPlayer = new TennisPlayer(scanner.nextLine());
-            TennisSet[] sets = new TennisSet[2];
+            TennisSet[] sets = new TennisSet[SET_LIMIT];
             sets[0] = TennisSet.between(firstPlayer, secondPlayer);
             sets[1] = TennisSet.between(firstPlayer, secondPlayer);
             return new TennisMatch(firstPlayer, secondPlayer, sets);

@@ -32,5 +32,6 @@ public class SetScore implements Score {
 
     @Override
     public void reset() {
+        throw new IllegalStateException("This method should net be used for this object.");
     }
 }

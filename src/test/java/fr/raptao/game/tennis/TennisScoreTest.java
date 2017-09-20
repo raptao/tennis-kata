@@ -19,6 +19,8 @@ public class TennisScoreTest {
     public void newScore() {
         Score s = new TennisScore();
         assertEquals(0, s.currentScore());
+        s = new TennisScore(15);
+        assertEquals(15, s.currentScore());
     }
 
     @Test
@@ -47,7 +49,7 @@ public class TennisScoreTest {
     }
 
     @Test
-    public void reset(){
+    public void reset() {
         Score s = new TennisScore();
 
         // O to 15

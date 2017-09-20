@@ -2,9 +2,7 @@ package fr.raptao.game.tennis;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by raptao on 9/20/2017.
@@ -12,7 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 public class SetScoreTest {
 
     @Test
-    public void scoreInitialization(){
+    public void scoreInitialization() {
         assertEquals(0, new SetScore().currentScore());
     }
 
@@ -24,7 +22,7 @@ public class SetScoreTest {
     }
 
     @Test
-    public void maxScore(){
+    public void maxScore() {
         SetScore score = new SetScore();
         assertTrue(score.increment());
         assertEquals(1, score.currentScore());
@@ -42,7 +40,11 @@ public class SetScoreTest {
         assertEquals(7, score.currentScore()); // max set score
         assertFalse(score.increment());
         assertEquals(7, score.currentScore());
+    }
 
-
+    @Test(expected = IllegalStateException.class)
+    public void reset() {
+        SetScore score = new SetScore();
+        score.reset();
     }
 }
