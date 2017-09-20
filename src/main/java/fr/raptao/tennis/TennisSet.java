@@ -7,9 +7,9 @@ import java.util.Objects;
 /**
  * Created by raptao on 9/20/2017.
  */
-public class TennisSet implements Game{
+public class TennisSet implements Game {
     public static final int MAX_SCORE = 40;
-    private final Pair<TennisPlayer,SetScore> firstPlayer;
+    private final Pair<TennisPlayer, SetScore> firstPlayer;
     private final Pair<TennisPlayer, SetScore> secondPlayer;
     private WinningPlayer winningPlayer;
 
@@ -32,13 +32,29 @@ public class TennisSet implements Game{
         return new TennisSet(one, two);
     }
 
-    public static TennisSet between(TennisPlayer firstPlayer, TennisPlayer secondPlayer){
+    public static TennisSet between(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
         return new TennisSet(firstPlayer, secondPlayer);
+    }
+
+    private static boolean isWinning(Pair<TennisPlayer, SetScore> player, Pair<TennisPlayer, SetScore> opponent) {
+        return opponent.getValue().currentScore() <= 4 && player.getValue().currentScore() == 5;
+    }
+
+    private static boolean winningBySeven(Pair<TennisPlayer, SetScore> player, Pair<TennisPlayer, SetScore> opponent) {
+        return opponent.getValue().currentScore() >= 5 && player.getValue().currentScore() >= 6;
     }
 
     @Override
     public boolean incrementFirstPlayer() {
-        if( isWinning(firstPlayer, secondPlayer) ){
+        if (isFinished()) {
+            return false;
+        }
+        if (winningBySeven(firstPlayer, secondPlayer)) {
+            firstPlayer.getValue().increment();
+            winningPlayer = WinningPlayer.PLAYER_ONE;
+            return false;
+        }
+        if (isWinning(firstPlayer, secondPlayer)) {
             firstPlayer.getValue().increment();
             winningPlayer = WinningPlayer.PLAYER_ONE;
             return false;
@@ -46,13 +62,18 @@ public class TennisSet implements Game{
         return firstPlayer.getValue().increment();
     }
 
-    private static boolean isWinning(Pair<TennisPlayer, SetScore>player, Pair<TennisPlayer, SetScore> opponent){
-        return opponent.getValue().currentScore() <= 4 && player.getValue().currentScore() == 5 ;
-
-    }
     @Override
     public boolean incrementSecondPlayer() {
-        if( isWinning(secondPlayer, firstPlayer) ){
+        if (isFinished()) {
+            return false;
+        }
+        if (winningBySeven(secondPlayer, firstPlayer)) {
+            secondPlayer.getValue().increment();
+            winningPlayer = WinningPlayer.PLAYER_TWO;
+            return false;
+        }
+
+        if (isWinning(secondPlayer, firstPlayer)) {
             secondPlayer.getValue().increment();
             winningPlayer = WinningPlayer.PLAYER_TWO;
             return false;
@@ -62,7 +83,7 @@ public class TennisSet implements Game{
 
     @Override
     public boolean isFinished() {
-        return false;
+        return !winningPlayer.equals(WinningPlayer.NONE);
     }
 
     @Override
