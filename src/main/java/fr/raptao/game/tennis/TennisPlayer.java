@@ -41,4 +41,8 @@ public class TennisPlayer implements Player {
     public void setAdvantage( boolean advantage){
         hasAdvantage = advantage;
     }
+
+    public void resetScore(){
+        score.reset();
+    }
 }

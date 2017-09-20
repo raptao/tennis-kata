@@ -127,4 +127,9 @@ public class TennisGame implements Game {
         return winningPlayer;
     }
 
+    public void reset(){
+        firstPlayer.resetScore();
+        secondPlayer.resetScore();
+        winningPlayer = WinningPlayer.NONE;
+    }
 }
