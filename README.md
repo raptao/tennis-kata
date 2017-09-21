@@ -8,7 +8,7 @@
 - Method : 87%
 - Line : 61%
 
-> **Note**: Those data has been computed by Intellij
+> **Note**: Those data have been computed by Intellij
 
 ## Application
 
