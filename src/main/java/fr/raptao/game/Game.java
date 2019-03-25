@@ -1,14 +1,10 @@
 package fr.raptao.game;
 
-import fr.raptao.game.tennis.TennisPlayer;
 import fr.raptao.game.tennis.WinningPlayer;
 
 import java.util.Optional;
 
-/**
- * Created by raptao on 9/20/2017.
- */
-public interface Game {
+public interface Game<E extends Player> {
 
     boolean incrementFirstPlayer();
 
@@ -16,13 +12,13 @@ public interface Game {
 
     boolean isFinished();
 
-    TennisPlayer getFirstPlayer();
+    E getFirstPlayer();
 
-    TennisPlayer getSecondPlayer();
+    E getSecondPlayer();
 
-    public int firstPlayerScore();
+    int firstPlayerScore();
 
-    public int secondPlayerScore();
+    int secondPlayerScore();
 
     WinningPlayer getWinningPlayer();
 

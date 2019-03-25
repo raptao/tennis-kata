@@ -7,9 +7,9 @@ import java.util.Objects;
 /**
  * Created by raptao on 9/18/2017.
  */
-public class TennisGame implements Game {
+public class TennisGame implements Game<TennisPlayer> {
 
-    public static final int MAX_SCORE = 40;
+    private static final int MAX_SCORE = 40;
     private final TennisPlayer firstPlayer;
     private final TennisPlayer secondPlayer;
     private WinningPlayer winningPlayer;
@@ -27,13 +27,13 @@ public class TennisGame implements Game {
      * @param secondPlayer the second player
      * @return a new game;
      */
-    public static TennisGame between(String firstPlayer, String secondPlayer) {
+    static TennisGame between(String firstPlayer, String secondPlayer) {
         TennisPlayer one = new TennisPlayer(firstPlayer);
         TennisPlayer two = new TennisPlayer(secondPlayer);
         return new TennisGame(one, two);
     }
 
-    public static TennisGame between(TennisPlayer firstPlayer, TennisPlayer secondPlayer){
+    static TennisGame between(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
         return new TennisGame(firstPlayer, secondPlayer);
     }
 
@@ -44,47 +44,32 @@ public class TennisGame implements Game {
      */
     @Override
     public boolean incrementFirstPlayer() {
-        if (isFinished()) {
-            return false;
-        }
-        // return to deuce game
-        if (secondPlayer.hasAdvantage()) {
-            secondPlayer.setAdvantage(false);
-            return true;
-        }
-        // player gets advantage
-        if (isDeuce()) {
-            firstPlayer.setAdvantage(true);
-            secondPlayer.setAdvantage(false);
-            return true;
-        }
-        // game won
-        if (firstPlayer.getScore() == MAX_SCORE || firstPlayer.hasAdvantage()) {
-            winningPlayer = WinningPlayer.PLAYER_ONE;
-            return false;
-        }
-        return firstPlayer.incrementScore();
+        return this.incrementPlayerScore(firstPlayer, secondPlayer);
     }
 
     @Override
     public boolean incrementSecondPlayer() {
+        return this.incrementPlayerScore(secondPlayer, firstPlayer);
+    }
+
+    private boolean incrementPlayerScore(TennisPlayer toIncrement, TennisPlayer opponent) {
         if (isFinished()) {
             return false;
         }
-        if (firstPlayer.hasAdvantage()) {
-            firstPlayer.setAdvantage(false);
+        if (opponent.hasAdvantage()) {
+            opponent.setAdvantage(false);
             return true;
         }
         if (isDeuce()) {
-            secondPlayer.setAdvantage(true);
-            firstPlayer.setAdvantage(false);
+            toIncrement.setAdvantage(true);
+            opponent.setAdvantage(false);
             return true;
         }
-        if (secondPlayer.getScore() == MAX_SCORE || secondPlayer.hasAdvantage()) {
+        if (toIncrement.getScore() == MAX_SCORE || toIncrement.hasAdvantage()) {
             winningPlayer = WinningPlayer.PLAYER_TWO;
             return false;
         }
-        return secondPlayer.incrementScore();
+        return toIncrement.incrementScore();
     }
 
     /**
@@ -95,8 +80,8 @@ public class TennisGame implements Game {
         return !winningPlayer.equals(WinningPlayer.NONE);
     }
 
-    public boolean isDeuce() {
-        if(firstPlayer.hasAdvantage() || secondPlayer.hasAdvantage()){
+    boolean isDeuce() {
+        if (firstPlayer.hasAdvantage() || secondPlayer.hasAdvantage()) {
             return false;
         }
         return (firstPlayer.getScore() == MAX_SCORE && secondPlayer.getScore() == MAX_SCORE);
@@ -127,7 +112,7 @@ public class TennisGame implements Game {
         return winningPlayer;
     }
 
-    public void reset(){
+    void reset() {
         firstPlayer.resetScore();
         secondPlayer.resetScore();
         winningPlayer = WinningPlayer.NONE;

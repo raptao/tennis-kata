@@ -5,16 +5,14 @@ import fr.raptao.game.Score;
 
 import java.util.Objects;
 
-/**
- * Created by raptao on 9/18/2017.
- */
+
 public class TennisPlayer implements Player {
 
     private final String name;
     private final Score score;
     private boolean hasAdvantage;
 
-    public TennisPlayer(String name) {
+    TennisPlayer(String name) {
         this.name = Objects.requireNonNull(name, "TennisPlayer name should not be null");
         this.score = new TennisScore();
     }
@@ -34,15 +32,15 @@ public class TennisPlayer implements Player {
         return score.currentScore();
     }
 
-    public boolean hasAdvantage(){
+    boolean hasAdvantage() {
         return hasAdvantage;
     }
 
-    public void setAdvantage( boolean advantage){
+    void setAdvantage(boolean advantage) {
         hasAdvantage = advantage;
     }
 
-    public void resetScore(){
+    void resetScore() {
         score.reset();
     }
 }
