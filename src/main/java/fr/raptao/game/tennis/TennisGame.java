@@ -1,7 +1,13 @@
 package fr.raptao.game.tennis;
 
 import fr.raptao.game.Game;
+import fr.raptao.game.Rule;
+import fr.raptao.game.rules.tennis.Advantage;
+import fr.raptao.game.rules.tennis.Deuce;
+import fr.raptao.game.rules.tennis.GameFinished;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,11 +19,15 @@ public class TennisGame implements Game<TennisPlayer> {
     private final TennisPlayer firstPlayer;
     private final TennisPlayer secondPlayer;
     private WinningPlayer winningPlayer;
+    private List<Rule> rules = new ArrayList<>();
 
     private TennisGame(TennisPlayer firstPlayer, TennisPlayer secondPlayer) {
         this.firstPlayer = Objects.requireNonNull(firstPlayer);
         this.secondPlayer = Objects.requireNonNull(secondPlayer);
         this.winningPlayer = WinningPlayer.NONE;
+        this.rules.add(new Advantage(firstPlayer, secondPlayer));
+        this.rules.add(new Deuce(firstPlayer, secondPlayer));
+        this.rules.add(new GameFinished(firstPlayer, secondPlayer));
     }
 
     /**

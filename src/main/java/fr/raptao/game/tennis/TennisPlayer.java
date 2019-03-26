@@ -32,7 +32,7 @@ public class TennisPlayer implements Player {
         return score.currentScore();
     }
 
-    boolean hasAdvantage() {
+    public boolean hasAdvantage() {
         return hasAdvantage;
     }
 
